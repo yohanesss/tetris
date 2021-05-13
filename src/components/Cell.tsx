@@ -3,7 +3,7 @@ import { TETROMINOS } from "../utils/tetrominos";
 import * as S from "../styles";
 
 interface CellProps {
-    type: any;
+    type: any[];
 }
 
 export const Cell: FC<CellProps> = ({ type }: CellProps) => {

@@ -1,9 +1,9 @@
-interface TetrominosVal {
+export interface TetrominosVal {
     shape: (number | string)[][];
     color: any;
 }
 
-type TetrominosType = {
+export type TetrominosType = {
     [key in number | string]: TetrominosVal;
 };
 
@@ -54,9 +54,17 @@ export const TETROMINOS: TetrominosType = {
     },
     T: {
         shape: [
-            [0, 0, 0],
             ["T", "T", "T"],
             [0, "T", 0],
+            [0, 0, 0],
+        ],
+        color: "132, 61, 198",
+    },
+    TInverse: {
+        shape: [
+            [0, "T", 0],
+            ["T", "T", "T"],
+            [0, 0, 0],
         ],
         color: "132, 61, 198",
     },

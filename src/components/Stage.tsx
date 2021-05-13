@@ -3,14 +3,14 @@ import { Cell } from "./Cell";
 import * as S from "../styles";
 
 interface StageProps {
-    stage: [][][];
+    stage: any | React.Dispatch<React.SetStateAction<[][][]>>;
 }
 
-export const Stage: FC<StageProps> = ({ stage }: StageProps) => {
+export const Stage: FC<StageProps> = ({ stage }) => {
     return (
         <S.StyledStage width={stage[0].length} height={stage.length}>
-            {stage.map((row) =>
-                row.map((cell, x) => <Cell key={x} type={cell} />)
+            {stage.map((row: [][]) =>
+                row.map((cell: [], x: number) => <Cell key={x} type={cell} />)
             )}
         </S.StyledStage>
     );

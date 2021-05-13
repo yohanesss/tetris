@@ -78,10 +78,11 @@ export const StyledDisplay = styled.div<StyledDisplayProps>`
     min-height: 30px;
     width: 100%;
     border-radius: 10px;
-    color: ${({ gameOver }) => (gameOver ? "red" : "hotpink")};
+    color: ${({ gameOver }) => (gameOver ? "white" : "hotpink")};
     text-shadow: 0.25px 0.25px 0 #0ff, -0.25px 0.25px 0 #f00;
     font-weight: bold;
-    background: rgba(0, 0, 0, 0.75);
+    background: ${({ gameOver }) =>
+        gameOver ? "rgba(255, 0, 0, 0.5)" : "rgba(0, 0, 0, 0.75)"};
     font-size: 1rem;
 `;
 
@@ -101,8 +102,14 @@ export const StyledStartButton = styled.button`
     font-size: 1rem;
     outline: none;
     cursor: pointer;
+    transition: 0.3s ease;
     &:hover {
         text-decoration: underline;
+    }
+    &:active {
+        transform: translateY(5px);
+        color: white;
+        background-color: rgba(0, 0, 0, 0.9);
     }
 `;
 

@@ -8,5 +8,7 @@ interface StartButtonProps {
 export const StartButton: FC<StartButtonProps> = ({
     callback,
 }: StartButtonProps) => {
-    return <S.StyledStartButton>Start Game</S.StyledStartButton>;
+    return (
+        <S.StyledStartButton onClick={callback}>Start Game</S.StyledStartButton>
+    );
 };
