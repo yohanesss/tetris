@@ -76,9 +76,8 @@ export const StyledStage = styled.div<StyledStageProps>`
     max-width: 25vw;
     background: rgba(0, 0, 0, 0.75);
     @media (max-width: 768px) {
-        max-width: 70vw;
-        margin-left: 10vw;
-        margin-top: -15px;
+        max-width: 100%;
+        margin-top: 0px;
         margin-bottom: 5px;
         grid-template-rows: repeat(
             ${({ height }) => height},
@@ -235,6 +234,7 @@ export const StageWrapper = styled.div`
     max-width: 25vw;
     width: 100%;
     transition: 0.3s ease-in-out;
+    margin-bottom: 5px;
 
     &.cleared {
         box-shadow: 0px 0px 11px 11px hotpink;
@@ -244,7 +244,7 @@ export const StageWrapper = styled.div`
         box-shadow: 0px 0px 11px 11px red;
     }
     @media (max-width: 768px) {
-        max-width: 100%;
+        max-width: 85%;
     }
 `;
 
