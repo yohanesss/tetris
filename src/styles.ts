@@ -18,7 +18,7 @@ export const StyledCell = styled.div<StyledCellProps>`
     border-left-color: rgba(${({ color }) => color}, 0.3);
 `;
 
-export const StyledTestrisWrapper = styled.div`
+export const StyledTetrisWrapper = styled.div`
     width: 100vw;
     height: 100vh;
     background-image: url(${bgImage});
@@ -44,6 +44,17 @@ export const StyledTetris = styled.div`
         display: block;
         padding: 0 20px;
     }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        padding: 20px;
+        padding-top: 60px;
+        justify-content: flex-start;
+
+        aside {
+            display: none;
+        }
+    }
 `;
 
 interface StyledStageProps {
@@ -63,6 +74,18 @@ export const StyledStage = styled.div<StyledStageProps>`
     width: 100%;
     max-width: 25vw;
     background: rgba(0, 0, 0, 0.75);
+    @media (max-width: 768px) {
+        max-width: 70vw;
+        margin-left: 10vw;
+        margin-top: -15px;
+        margin-bottom: 5px;
+        grid-template-rows: repeat(
+            ${({ height }) => height},
+            calc(60vw / ${({ width }) => width})
+        );
+
+        grid-template-columns: repeat(${({ width }) => width}, 1fr);
+    }
 `;
 
 interface StyledDisplayProps {
@@ -85,6 +108,11 @@ export const StyledDisplay = styled.div<StyledDisplayProps>`
     background: ${({ gameOver }) =>
         gameOver ? "rgba(255, 0, 0, 0.5)" : "rgba(0, 0, 0, 0.75)"};
     font-size: 1rem;
+    @media (max-width: 768px) {
+        padding: 5px;
+        margin: 10px 5px;
+        font-size: 12px;
+    }
 `;
 
 export const StyledStartButton = styled.button`
@@ -113,6 +141,10 @@ export const StyledStartButton = styled.button`
         color: white;
         background-color: rgba(0, 0, 0, 0.9);
     }
+
+    @media (max-width: 768px) {
+        padding: 5px;
+    }
 `;
 
 export const SoundControlButton = styled.button`
@@ -133,11 +165,29 @@ export const SoundControlButton = styled.button`
     &.off {
         background-image: url(${soundOff});
     }
+
+    @media (max-width: 768px) {
+        padding: 10px;
+    }
 `;
 
 export const TetrisTitle = styled.img`
     width: 100%;
     margin-bottom: 20px;
+    @media (max-width: 768px) {
+        display: none;
+    }
+`;
+
+export const TetrisTitleMobile = styled.img`
+    display: none;
+    position: absolute;
+    width: 100px;
+    margin-left: calc(50vw - 50px);
+    top: 10px;
+    @media (max-width: 768px) {
+        display: block;
+    }
 `;
 
 export const ShowGuideButton = styled.button`
@@ -159,7 +209,6 @@ export const ShowGuideButton = styled.button`
 `;
 
 export const StageWrapper = styled.div`
-    max-width: 25vw;
     width: 100%;
     max-width: 25vw;
     width: 100%;
@@ -171,6 +220,9 @@ export const StageWrapper = styled.div`
 
     &.gameover {
         box-shadow: 0px 0px 11px 11px red;
+    }
+    @media (max-width: 768px) {
+        max-width: 100%;
     }
 `;
 
@@ -210,4 +262,51 @@ export const CreatorLink = styled.a`
     margin-top: 50px;
     display: block;
     font-size: 1rem;
+    @media (max-width: 768px) {
+        font-size: 12px;
+        margin-top: -5px;
+    }
+`;
+
+export const SummaryInfoWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    @media (max-width: 768px) {
+        flex-direction: row;
+    }
+`;
+
+export const MobileOuterActionContainer = styled.div`
+    display: flex;
+`;
+
+export const MobileActionContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+export const MobileActionInnerContainer = styled.div`
+    display: flex;
+`;
+
+export const MobileArrowContainer = styled.div`
+    margin-top: 5px;
+    width: 100px;
+    margin-right: 5px;
+
+    button {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        border: 2px solid hotpink;
+        width: 35px;
+        height: 35px;
+
+        &:focus {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        svg {
+            margin-top: 3px;
+            /* margin-left: -3px; */
+        }
+    }
 `;

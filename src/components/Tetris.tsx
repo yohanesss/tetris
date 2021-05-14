@@ -1,19 +1,22 @@
 import React, { useState } from "react";
+import Sound from "react-sound";
+import Modal from "react-modal";
 
 import { Stage } from "./Stage";
 import { Display } from "./Display";
 import { StartButton } from "./StartButton";
+import { MobileNav } from "./MobileNav";
 
 import { createStage, checkCollission } from "../utils/gameHelper";
 import { useInterval } from "../hooks/useInterval";
 import { usePlayer } from "../hooks/usePlayer";
 import { useStage } from "../hooks/useStage";
 import { useGameStatus } from "../hooks/useGameStatus";
-import Modal from "react-modal";
 
 import * as S from "../styles";
 import logo from "../assets/tetris.png";
 import arrows from "../assets/arrows.png";
+import tetrisMp3 from "../assets/tetris.mp3";
 
 const customStyles = {
     content: {
@@ -32,6 +35,8 @@ export const Tetris = () => {
     const [dropTime, setDropTime] = useState<DropTime>(null);
     const [gameOver, setGameOver] = useState(false);
     const [showGuide, setShowGuide] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [isFirstTimeChangeSound, setIsFirstTimeChangeSound] = useState(true);
 
     const [player, updatePlayerPos, resetPlayer, rotateActiveTetromino] =
         usePlayer();
@@ -59,6 +64,10 @@ export const Tetris = () => {
     };
 
     const startGame = () => {
+        if (isFirstTimeChangeSound) {
+            setIsFirstTimeChangeSound(false);
+            setIsPlaying(true);
+        }
         // reset everythingg
         setStage(createStage());
         setDropTime(1000);
@@ -136,62 +145,116 @@ export const Tetris = () => {
     }, dropTime);
 
     return (
-        <S.StyledTestrisWrapper
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => move(e)}
-            onKeyUp={keyUp}
-        >
-            <S.StyledTetris>
-                <S.StageWrapper
-                    className={
-                        gameOver
-                            ? "gameover"
-                            : isSuccessRowsCleared
-                            ? "cleared"
-                            : ""
+        <>
+            <S.TetrisTitleMobile src={logo} />
+            <Sound
+                url={tetrisMp3}
+                playStatus={isPlaying ? "PLAYING" : "STOPPED"}
+            />
+            <S.SoundControlButton
+                className={!isPlaying ? "off" : ""}
+                onClick={() => {
+                    if (isFirstTimeChangeSound) {
+                        setIsFirstTimeChangeSound(false);
                     }
-                >
-                    <Stage stage={stage} />
-                </S.StageWrapper>
-                <aside>
-                    <S.TetrisTitle src={logo} />
-                    {gameOver ? (
-                        <Display text="Game Over" gameOver={gameOver} />
+                    setIsPlaying(!isPlaying);
+                }}
+            />
+
+            <S.StyledTetrisWrapper
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => move(e)}
+                onKeyUp={keyUp}
+            >
+                <S.StyledTetris>
+                    <S.StageWrapper
+                        className={
+                            gameOver
+                                ? "gameover"
+                                : isSuccessRowsCleared
+                                ? "cleared"
+                                : ""
+                        }
+                    >
+                        <Stage stage={stage} />
+                    </S.StageWrapper>
+
+                    {window.innerWidth <= 768 ? (
+                        <MobileNav
+                            upAction={() => rotateActiveTetromino(stage, 1)}
+                            leftAction={() => moveActiveTetromino(-1)}
+                            rightAction={() => moveActiveTetromino(1)}
+                            downAction={() => dropPlayer()}
+                            startGame={startGame}
+                            gameOver={gameOver}
+                            score={score}
+                            rows={rows}
+                            level={level}
+                        />
                     ) : (
                         <>
-                            <Display text={`Score: ${score}`} />
-                            <Display text={`Rows: ${rows}`} />
-                            <Display text={`Level: ${level}`} />
+                            <aside>
+                                <S.SummaryInfoWrapper>
+                                    <S.TetrisTitle
+                                        className="desktop-logo"
+                                        src={logo}
+                                    />
+                                    {gameOver ? (
+                                        <>
+                                            <Display
+                                                text="Game Over"
+                                                gameOver={gameOver}
+                                            />
+                                            <Display
+                                                text={`Total Score: ${score}`}
+                                            />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Display text={`Score: ${score}`} />
+                                            <Display text={`Rows: ${rows}`} />
+                                            <Display text={`Level: ${level}`} />
+                                        </>
+                                    )}
+                                    <StartButton
+                                        gameOver={gameOver}
+                                        callback={startGame}
+                                    />
+                                    <S.ShowGuideButton
+                                        onClick={() => setShowGuide(true)}
+                                    >
+                                        How to play
+                                    </S.ShowGuideButton>
+                                    <S.CreatorLink href="https://yoh.netlify.app">
+                                        https://yoh.netlify.app
+                                    </S.CreatorLink>
+                                </S.SummaryInfoWrapper>
+                            </aside>
+                            <Modal isOpen={showGuide} style={customStyles}>
+                                <S.CloseGuideModalButton
+                                    onClick={() => setShowGuide(false)}
+                                >
+                                    X
+                                </S.CloseGuideModalButton>
+                                <S.GuideModalTitle>
+                                    Navigation
+                                </S.GuideModalTitle>
+                                <S.GuideContentContainer>
+                                    <S.GuideArrowImage src={arrows} alt="nav" />
+                                    <S.GuideContentInnerContainer>
+                                        <p>Up: Rotate</p>
+                                        <p>Left: Go Left</p>
+                                        <p>Right: Go Right</p>
+                                        <p>Down: Go Down</p>
+                                        <p>Hold Down: Go Down Faster</p>
+                                    </S.GuideContentInnerContainer>
+                                </S.GuideContentContainer>
+                            </Modal>
                         </>
                     )}
-                    <StartButton gameOver={gameOver} callback={startGame} />
-                    <S.ShowGuideButton onClick={() => setShowGuide(true)}>
-                        How to play
-                    </S.ShowGuideButton>
-                    <S.CreatorLink href="https://yoh.netlify.app">
-                        https://yoh.netlify.app
-                    </S.CreatorLink>
-                    <Modal isOpen={showGuide} style={customStyles}>
-                        <S.CloseGuideModalButton
-                            onClick={() => setShowGuide(false)}
-                        >
-                            X
-                        </S.CloseGuideModalButton>
-                        <S.GuideModalTitle>Navigation</S.GuideModalTitle>
-                        <S.GuideContentContainer>
-                            <S.GuideArrowImage src={arrows} alt="nav" />
-                            <S.GuideContentInnerContainer>
-                                <p>Up: Rotate</p>
-                                <p>Left: Go Left</p>
-                                <p>Right: Go Right</p>
-                                <p>Down: Go Down</p>
-                                <p>Hold Down: Go Down Faster</p>
-                            </S.GuideContentInnerContainer>
-                        </S.GuideContentContainer>
-                    </Modal>
-                </aside>
-            </S.StyledTetris>
-        </S.StyledTestrisWrapper>
+                </S.StyledTetris>
+            </S.StyledTetrisWrapper>
+        </>
     );
 };
