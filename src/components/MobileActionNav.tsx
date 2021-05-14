@@ -32,7 +32,7 @@ export const MobileActionNav = ({
             </button>
             <div>
                 <button
-                    style={{ marginRight: "17px" }}
+                    style={{ marginRight: "20px" }}
                     onClick={() => leftAction()}
                 >
                     <svg

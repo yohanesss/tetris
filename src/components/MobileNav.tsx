@@ -11,6 +11,7 @@ interface MobileNavProps {
     rightAction: any;
     downAction: any;
     startGame: any;
+    showNavAction: any;
     gameOver: boolean;
     score: number;
     rows: number;
@@ -27,32 +28,36 @@ export const MobileNav = ({
     score,
     rows,
     level,
+    showNavAction,
 }: MobileNavProps) => {
     return (
-        <S.MobileOuterActionContainer>
-            <MobileActionNav
-                upAction={() => upAction()}
-                leftAction={() => leftAction()}
-                rightAction={() => rightAction()}
-                downAction={() => downAction()}
-            />
-            <S.MobileActionContainer>
-                <S.MobileActionInnerContainer>
-                    <S.TetrisTitle className="desktop-logo" src={logo} />
-                    {gameOver ? (
-                        <Display text="Game Over" gameOver={gameOver} />
-                    ) : null}
-                </S.MobileActionInnerContainer>
-                <S.MobileActionInnerContainer>
-                    <Display text={`Score: ${score}`} />
-                    <Display text={`Rows: ${rows}`} />
-                    <Display text={`Level: ${level}`} />
-                </S.MobileActionInnerContainer>
-                <StartButton gameOver={gameOver} callback={startGame} />
-                <S.CreatorLink href="https://yoh.netlify.app">
-                    https://yoh.netlify.app
-                </S.CreatorLink>
-            </S.MobileActionContainer>
-        </S.MobileOuterActionContainer>
+        <>
+            <S.ShowMobileGuideButton onClick={() => showNavAction()} />
+            <S.MobileOuterActionContainer>
+                <MobileActionNav
+                    upAction={() => upAction()}
+                    leftAction={() => leftAction()}
+                    rightAction={() => rightAction()}
+                    downAction={() => downAction()}
+                />
+                <S.MobileActionContainer>
+                    <S.MobileActionInnerContainer>
+                        <S.TetrisTitle className="desktop-logo" src={logo} />
+                        {gameOver ? (
+                            <Display text="Game Over" gameOver={gameOver} />
+                        ) : null}
+                    </S.MobileActionInnerContainer>
+                    <S.MobileActionInnerContainer>
+                        <Display text={`Score: ${score}`} />
+                        <Display text={`Rows: ${rows}`} />
+                        <Display text={`Level: ${level}`} />
+                    </S.MobileActionInnerContainer>
+                    <StartButton gameOver={gameOver} callback={startGame} />
+                    <S.CreatorLink href="https://yoh.netlify.app">
+                        https://yoh.netlify.app
+                    </S.CreatorLink>
+                </S.MobileActionContainer>
+            </S.MobileOuterActionContainer>
+        </>
     );
 };

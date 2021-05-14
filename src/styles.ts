@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import bgImage from "./assets/background.jpg";
 import soundOn from "./assets/soundon.svg";
+import help from "./assets/help.svg";
 import soundOff from "./assets/soundoff.svg";
 
 type StyledCellProps = {
@@ -147,6 +148,27 @@ export const StyledStartButton = styled.button`
     }
 `;
 
+export const ShowMobileGuideButton = styled.button`
+    background-image: url(${help});
+    padding: 20px;
+    border-radius: 50%;
+    position: absolute;
+    right: 0;
+    top: 10px;
+    left: 10px;
+    background-repeat: no-repeat;
+    background-position: center;
+    outline: none;
+    background-size: 60%;
+    background-color: white;
+    border: 2px solid hotpink;
+    cursor: pointer;
+
+    @media (max-width: 768px) {
+        padding: 10px;
+    }
+`;
+
 export const SoundControlButton = styled.button`
     background-image: url(${soundOn});
     padding: 20px;
@@ -234,11 +256,19 @@ export const GuideModalTitle = styled.h1`
 export const GuideContentContainer = styled.div`
     display: flex;
     justify-content: center;
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+    }
 `;
 
 export const GuideContentInnerContainer = styled.div`
     margin-left: 20px;
     font-weight: bold;
+    @media (max-width: 768px) {
+        text-align: center;
+        margin-left: 0;
+    }
 `;
 
 export const GuideArrowImage = styled.img`
@@ -292,11 +322,13 @@ export const MobileArrowContainer = styled.div`
     margin-top: 5px;
     width: 100px;
     margin-right: 5px;
+    margin-left: -5px;
 
     button {
         background-color: rgba(0, 0, 0, 0.5);
         border-radius: 50%;
         border: 2px solid hotpink;
+        margin: 2px;
         width: 35px;
         height: 35px;
 

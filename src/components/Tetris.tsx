@@ -187,6 +187,7 @@ export const Tetris = () => {
                             score={score}
                             rows={rows}
                             level={level}
+                            showNavAction={() => setShowGuide(true)}
                         />
                     ) : (
                         <>
@@ -227,30 +228,28 @@ export const Tetris = () => {
                                     </S.CreatorLink>
                                 </S.SummaryInfoWrapper>
                             </aside>
-                            <Modal isOpen={showGuide} style={customStyles}>
-                                <S.CloseGuideModalButton
-                                    onClick={() => setShowGuide(false)}
-                                >
-                                    X
-                                </S.CloseGuideModalButton>
-                                <S.GuideModalTitle>
-                                    Navigation
-                                </S.GuideModalTitle>
-                                <S.GuideContentContainer>
-                                    <S.GuideArrowImage src={arrows} alt="nav" />
-                                    <S.GuideContentInnerContainer>
-                                        <p>Up: Rotate</p>
-                                        <p>Left: Go Left</p>
-                                        <p>Right: Go Right</p>
-                                        <p>Down: Go Down</p>
-                                        <p>Hold Down: Go Down Faster</p>
-                                    </S.GuideContentInnerContainer>
-                                </S.GuideContentContainer>
-                            </Modal>
                         </>
                     )}
                 </S.StyledTetris>
             </S.StyledTetrisWrapper>
+            <Modal isOpen={showGuide} style={customStyles}>
+                <S.CloseGuideModalButton onClick={() => setShowGuide(false)}>
+                    X
+                </S.CloseGuideModalButton>
+                <S.GuideModalTitle>Navigation</S.GuideModalTitle>
+                <S.GuideContentContainer>
+                    <S.GuideArrowImage src={arrows} alt="nav" />
+                    <S.GuideContentInnerContainer>
+                        <p>Up: Rotate</p>
+                        <p>Left: Go Left</p>
+                        <p>Right: Go Right</p>
+                        <p>Down: Go Down</p>
+                        {window.innerWidth > 768 ? (
+                            <p>Hold Down: Go Down Faster</p>
+                        ) : null}
+                    </S.GuideContentInnerContainer>
+                </S.GuideContentContainer>
+            </Modal>
         </>
     );
 };
