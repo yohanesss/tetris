@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
 
 import { Stage } from "./Stage";
 import { Display } from "./Display";
@@ -26,11 +26,9 @@ const customStyles = {
     },
 };
 
-interface TetrisProps {}
-
 type DropTime = null | number;
 
-export const Tetris: FC<TetrisProps> = ({}: TetrisProps) => {
+export const Tetris = () => {
     const [dropTime, setDropTime] = useState<DropTime>(null);
     const [gameOver, setGameOver] = useState(false);
     const [showGuide, setShowGuide] = useState(false);

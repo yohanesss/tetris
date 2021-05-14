@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export const useGameStatus = (rowsCleared: number) => {
     const [score, setScore] = useState(0);
