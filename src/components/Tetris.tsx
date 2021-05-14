@@ -187,7 +187,8 @@ export const Tetris: FC<TetrisProps> = ({}: TetrisProps) => {
                                 <p>Up: Rotate</p>
                                 <p>Left: Go Left</p>
                                 <p>Right: Go Right</p>
-                                <p>Down: Go Down Faster</p>
+                                <p>Down: Go Down</p>
+                                <p>Hold Down: Go Down Faster</p>
                             </S.GuideContentInnerContainer>
                         </S.GuideContentContainer>
                     </Modal>
