@@ -52,8 +52,6 @@ export const Tetris = () => {
         setIsSuccessRowsCleared,
     ] = useGameStatus(rowsCleared);
 
-    console.log("rerender");
-
     const moveActiveTetromino = (dir: number) => {
         if (!checkCollission(player, stage, { x: dir, y: 0 })) {
             updatePlayerPos({
@@ -106,7 +104,6 @@ export const Tetris = () => {
     const keyUp = ({ keyCode }: React.KeyboardEvent<HTMLDivElement>) => {
         if (!gameOver) {
             if (keyCode === 40) {
-                console.log("interval on");
                 // down key
                 setDropTime(1000 / (level + 1) + 200);
             }
@@ -114,7 +111,6 @@ export const Tetris = () => {
     };
 
     const dropPlayer = () => {
-        console.log("interval off");
         setDropTime(null);
         drop();
     };
@@ -185,7 +181,7 @@ export const Tetris = () => {
                             upAction={() => rotateActiveTetromino(stage, 1)}
                             leftAction={() => moveActiveTetromino(-1)}
                             rightAction={() => moveActiveTetromino(1)}
-                            downAction={() => dropPlayer()}
+                            downAction={() => drop()}
                             startGame={startGame}
                             gameOver={gameOver}
                             score={score}

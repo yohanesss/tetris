@@ -7,8 +7,6 @@ interface CellProps {
 }
 
 const Cell: FC<CellProps> = ({ type }: CellProps) => {
-    console.log("called");
-    console.log(type);
     const tetroColor = TETROMINOS[type[0]].color;
     return <S.StyledCell type={type[0]} color={tetroColor} />;
 };
