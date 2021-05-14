@@ -4,6 +4,7 @@ export const useGameStatus = (rowsCleared: number) => {
     const [score, setScore] = useState(0);
     const [rows, setRows] = useState(0);
     const [level, setLevel] = useState(0);
+    const [isSuccessRowsCleared, setIsSuccessRowsCleared] = useState(false);
 
     const linePoints = [40, 100, 300, 1200];
 
@@ -13,6 +14,7 @@ export const useGameStatus = (rowsCleared: number) => {
                 (prev) => prev + linePoints[rowsCleared - 1] * (level + 1)
             );
             setRows((prev) => prev + rowsCleared);
+            setIsSuccessRowsCleared(true);
         }
     }, [level, linePoints, rowsCleared]);
 
@@ -20,5 +22,14 @@ export const useGameStatus = (rowsCleared: number) => {
         calcScore();
     }, [calcScore, rowsCleared, score]);
 
-    return [score, setScore, rows, setRows, level, setLevel] as const;
+    return [
+        score,
+        setScore,
+        rows,
+        setRows,
+        level,
+        setLevel,
+        isSuccessRowsCleared,
+        setIsSuccessRowsCleared,
+    ] as const;
 };

@@ -38,8 +38,9 @@ export const StyledTetris = styled.div`
     max-width: 900px;
 
     aside {
+        margin-left: 10px;
         width: 100%;
-        max-width: 200px;
+        max-width: 250px;
         display: block;
         padding: 0 20px;
     }
@@ -94,12 +95,13 @@ export const StyledStartButton = styled.button`
     width: 100%;
     border-radius: 10px;
     font-weight: bold;
+    font-family: "Cutive Mono", monospace;
     /* text-shadow: 1.25px 1.25px 0 #0ff, -1.25px 1.25px 0 #f00; */
     border: 2px solid aqua;
     color: #ff0074;
     background: rgba(0, 0, 0, 0.75);
     text-shadow: 0.25px 0.25px 0 #0ff, -0.25px 0.25px 0 #f00;
-    font-size: 1rem;
+    font-size: 1.25rem;
     outline: none;
     cursor: pointer;
     transition: 0.3s ease;
@@ -136,4 +138,76 @@ export const SoundControlButton = styled.button`
 export const TetrisTitle = styled.img`
     width: 100%;
     margin-bottom: 20px;
+`;
+
+export const ShowGuideButton = styled.button`
+    font-size: 1.1rem;
+    margin: 10px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-family: "Cutive Mono", monospace;
+    font-weight: bold;
+    width: fit-content;
+    margin: auto;
+    padding: 5px 10px;
+    border-radius: 53px;
+    cursor: pointer;
+    border: 2px solid hotpink;
+    &:hover {
+        text-decoration: underline;
+    }
+`;
+
+export const StageWrapper = styled.div`
+    max-width: 25vw;
+    width: 100%;
+    max-width: 25vw;
+    width: 100%;
+    transition: 0.3s ease-in-out;
+
+    &.cleared {
+        box-shadow: 0px 0px 11px 11px hotpink;
+    }
+
+    &.gameover {
+        box-shadow: 0px 0px 11px 11px red;
+    }
+`;
+
+export const GuideModalTitle = styled.h1`
+    margin-top: 0;
+    text-align: center;
+`;
+
+export const GuideContentContainer = styled.div`
+    display: flex;
+    justify-content: center;
+`;
+
+export const GuideContentInnerContainer = styled.div`
+    margin-left: 20px;
+    font-weight: bold;
+`;
+
+export const GuideArrowImage = styled.img`
+    width: 200px;
+`;
+
+export const CloseGuideModalButton = styled.button`
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: 4px solid black;
+    font-weight: bold;
+    font-size: 1rem;
+`;
+
+export const CreatorLink = styled.a`
+    color: white;
+    font-weight: bold;
+    margin-top: 50px;
+    display: block;
+    font-size: 1rem;
 `;

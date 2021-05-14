@@ -4,14 +4,27 @@ import { Stage } from "./Stage";
 import { Display } from "./Display";
 import { StartButton } from "./StartButton";
 
-import * as S from "../styles";
-import logo from "../assets/tetris.png";
-
 import { createStage, checkCollission } from "../utils/gameHelper";
 import { useInterval } from "../hooks/useInterval";
 import { usePlayer } from "../hooks/usePlayer";
 import { useStage } from "../hooks/useStage";
 import { useGameStatus } from "../hooks/useGameStatus";
+import Modal from "react-modal";
+
+import * as S from "../styles";
+import logo from "../assets/tetris.png";
+import arrows from "../assets/arrows.png";
+
+const customStyles = {
+    content: {
+        top: "50%",
+        left: "50%",
+        right: "auto",
+        bottom: "auto",
+        marginRight: "-50%",
+        transform: "translate(-50%, -50%)",
+    },
+};
 
 interface TetrisProps {}
 
@@ -20,12 +33,21 @@ type DropTime = null | number;
 export const Tetris: FC<TetrisProps> = ({}: TetrisProps) => {
     const [dropTime, setDropTime] = useState<DropTime>(null);
     const [gameOver, setGameOver] = useState(false);
+    const [showGuide, setShowGuide] = useState(false);
 
     const [player, updatePlayerPos, resetPlayer, rotateActiveTetromino] =
         usePlayer();
     const [stage, setStage, rowsCleared] = useStage(player, resetPlayer);
-    const [score, setScore, rows, setRows, level, setLevel] =
-        useGameStatus(rowsCleared);
+    const [
+        score,
+        setScore,
+        rows,
+        setRows,
+        level,
+        setLevel,
+        isSuccessRowsCleared,
+        setIsSuccessRowsCleared,
+    ] = useGameStatus(rowsCleared);
 
     console.log("rerender");
 
@@ -46,7 +68,7 @@ export const Tetris: FC<TetrisProps> = ({}: TetrisProps) => {
         setGameOver(false);
         setScore(0);
         setRows(0);
-        setLevel(0);
+        setLevel(1);
     };
 
     const drop = () => {
@@ -63,7 +85,6 @@ export const Tetris: FC<TetrisProps> = ({}: TetrisProps) => {
             });
         } else {
             if (player.pos.y < 1) {
-                console.log("GAME OVER");
                 setGameOver(true);
                 setDropTime(null);
             }
@@ -110,6 +131,9 @@ export const Tetris: FC<TetrisProps> = ({}: TetrisProps) => {
     };
 
     useInterval(() => {
+        if (isSuccessRowsCleared) {
+            setIsSuccessRowsCleared(false);
+        }
         drop();
     }, dropTime);
 
@@ -121,7 +145,17 @@ export const Tetris: FC<TetrisProps> = ({}: TetrisProps) => {
             onKeyUp={keyUp}
         >
             <S.StyledTetris>
-                <Stage stage={stage} />
+                <S.StageWrapper
+                    className={
+                        gameOver
+                            ? "gameover"
+                            : isSuccessRowsCleared
+                            ? "cleared"
+                            : ""
+                    }
+                >
+                    <Stage stage={stage} />
+                </S.StageWrapper>
                 <aside>
                     <S.TetrisTitle src={logo} />
                     {gameOver ? (
@@ -133,7 +167,30 @@ export const Tetris: FC<TetrisProps> = ({}: TetrisProps) => {
                             <Display text={`Level: ${level}`} />
                         </>
                     )}
-                    <StartButton callback={startGame} />
+                    <StartButton gameOver={gameOver} callback={startGame} />
+                    <S.ShowGuideButton onClick={() => setShowGuide(true)}>
+                        How to play
+                    </S.ShowGuideButton>
+                    <S.CreatorLink href="https://yoh.netlify.app">
+                        https://yoh.netlify.app
+                    </S.CreatorLink>
+                    <Modal isOpen={showGuide} style={customStyles}>
+                        <S.CloseGuideModalButton
+                            onClick={() => setShowGuide(false)}
+                        >
+                            X
+                        </S.CloseGuideModalButton>
+                        <S.GuideModalTitle>Navigation</S.GuideModalTitle>
+                        <S.GuideContentContainer>
+                            <S.GuideArrowImage src={arrows} alt="nav" />
+                            <S.GuideContentInnerContainer>
+                                <p>Up: Rotate</p>
+                                <p>Left: Go Left</p>
+                                <p>Right: Go Right</p>
+                                <p>Down: Go Down Faster</p>
+                            </S.GuideContentInnerContainer>
+                        </S.GuideContentContainer>
+                    </Modal>
                 </aside>
             </S.StyledTetris>
         </S.StyledTestrisWrapper>
