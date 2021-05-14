@@ -1,3 +1,25 @@
-import React from "react";
+import * as React from "react";
 
-export const useInterval = () => <h1>asdf</h1>;
+const { useEffect, useRef } = React;
+
+type IntervalFunction = () => unknown | void;
+
+export function useInterval(callback: IntervalFunction, delay: number | null) {
+    const savedCallback = useRef<IntervalFunction | null>(null);
+
+    useEffect(() => {
+        if (delay === null) return;
+        savedCallback.current = callback;
+    });
+
+    useEffect(() => {
+        if (delay === null) return;
+        function tick() {
+            if (savedCallback.current !== null) {
+                savedCallback.current();
+            }
+        }
+        const id = setInterval(tick, delay);
+        return () => clearInterval(id);
+    }, [delay]);
+}

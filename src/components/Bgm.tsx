@@ -4,7 +4,7 @@ import Sound from "react-sound";
 import * as S from "../styles";
 
 export const Bgm = () => {
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(true);
     return (
         <>
             <Sound

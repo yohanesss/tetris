@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Cell } from "./Cell";
+import Cell from "./Cell";
 import * as S from "../styles";
 
 interface StageProps {

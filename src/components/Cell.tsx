@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, memo } from "react";
 import { TETROMINOS } from "../utils/tetrominos";
 import * as S from "../styles";
 
@@ -6,7 +6,11 @@ interface CellProps {
     type: any[];
 }
 
-export const Cell: FC<CellProps> = ({ type }: CellProps) => {
+const Cell: FC<CellProps> = ({ type }: CellProps) => {
+    console.log("called");
+    console.log(type);
     const tetroColor = TETROMINOS[type[0]].color;
-    return <S.StyledCell type={"L"} color={tetroColor} />;
+    return <S.StyledCell type={type[0]} color={tetroColor} />;
 };
+
+export default memo(Cell);
