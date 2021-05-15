@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 export const useGameStatus = (rowsCleared: number) => {
     const [score, setScore] = useState(0);
     const [rows, setRows] = useState(0);
-    const [level, setLevel] = useState(0);
+    const [level, setLevel] = useState(1);
     const [isSuccessRowsCleared, setIsSuccessRowsCleared] = useState(false);
 
     const calcScore = useCallback(() => {
